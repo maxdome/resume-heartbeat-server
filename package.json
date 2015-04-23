@@ -11,6 +11,7 @@
         "dragonnodejs-express": "^2.1.1",
         "dragonnodejs-redis": "^2.0.2",
         "body-parser": "^1.12.0",
+        "express.io": "^1.1.13",
         "newrelic": "^1.15.1",
         "password-hash": "^1.2.2",
         "throng": "^1.0.0"

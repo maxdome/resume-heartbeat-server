@@ -31,9 +31,26 @@ module.exports = function (config, libraries, services) {
         });
     });
 
-    app.get('/load/:user_id/:asset_id', function (req, res) {
-        client.get(req.params.user_id + ':' + req.params.asset_id, function (err, data) {
-            res.send(data);
+    app.get('/load/:user_id/:query', function (req, res) {
+        var query = JSON.parse(req.params.query);
+        if (typeof query == 'object') {
+            query = query.map(function (asset_id) { return req.params.user_id + ':' + asset_id; });
+            client.mget(query, function (err, data) {
+                res.send(data);
+            });
+        } else {
+            client.get(req.params.user_id + ':' + query, function (err, data) {
+                res.send(data);
+            });
+        }
+    });
+
+    app.io.route('store', function (req) {
+        client.getJSON(req.data.token, function (err, data) {
+            if (!data) {
+                return;
+            }
+            client.set(data.user_id + ':' + data.asset_id, req.data.playbackPosition, function () {});
         });
     });
 };
