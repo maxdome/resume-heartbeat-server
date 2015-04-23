@@ -15,10 +15,16 @@ var config = {
     directory: __dirname + '/modules/',
     modules: {
         npm: [
+            [function (config, libraries, services) {
+                var express = require('express.io');
+                var app = express();
+                app.http().io();
+                app.listen(config.port);
+                services.app = app;
+            }, {
+                port: process.env.PORT
+            }],
             [require('dragonnodejs-express'), {
-                app: {
-                    port: process.env.PORT
-                },
                 auth: {
                     disabled: process.env.AUTH_DISABLED,
                     users: process.env.AUTH_USERS,

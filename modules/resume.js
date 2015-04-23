@@ -44,4 +44,13 @@ module.exports = function (config, libraries, services) {
             });
         }
     });
+
+    app.io.route('store', function (req) {
+        client.getJSON(req.data.token, function (err, data) {
+            if (!data) {
+                return;
+            }
+            client.set(data.user_id + ':' + data.asset_id, req.data.playbackPosition, function () {});
+        });
+    });
 };
