@@ -10,8 +10,6 @@
  */
 
 module.exports = function (config, libraries, services) {
-    var app = services.app;
-
     var token = function (callback) {
         var token = Array.apply({}, Array(config.length)).map(function () {
             return (function (charset) {
@@ -21,9 +19,5 @@ module.exports = function (config, libraries, services) {
         callback(token);
     };
 
-    app.post('/token', function (req, res) {
-        token(function (token) {
-            res.send(token);
-        });
-    });
+    services.token = token;
 };

@@ -30,6 +30,15 @@ var config = {
                 header: {
                     'X-Powered-By': null
                 }
+            }],
+            [require('dragonnodejs-redis'), {
+                client: {
+                    uri: process.env.REDISCLOUD_URL
+                },
+                json: {},
+                cache: {
+                    disabled: process.env.CACHE_DISABLED
+                }
             }]
         ],
         directory: {
