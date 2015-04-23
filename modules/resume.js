@@ -20,7 +20,11 @@ module.exports = function (config, libraries, services) {
     });
 
     app.post('/store', function (req, res) {
-        client.getJSON(req.body.token, function (data) {
+        client.getJSON(req.body.token, function (err, data) {
+            if (!data) {
+                res.send();
+                return;
+            }
             client.set(data.user_id + ':' + data.asset_id, req.body.playbackPosition, function () {
                 res.send();
             });
@@ -28,7 +32,7 @@ module.exports = function (config, libraries, services) {
     });
 
     app.get('/load/:user_id/:asset_id', function (req, res) {
-        client.get(req.params.user_id + ':' + req.params.asset_id, function (data) {
+        client.get(req.params.user_id + ':' + req.params.asset_id, function (err, data) {
             res.send(data);
         });
     });
